@@ -51,18 +51,34 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
+                <a href="{{ url('/customer-tambah1') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tambah Customer 1</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
+                <a href="{{ url('/customer-tambah2') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tambah Customer 2</p>
                 </a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/barang') }}" class="nav-link">
+            <i class="nav-icon fas fa-table"></i>
+              <p>
+              Cetak label TnJ 108
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/barcode-scanner') }}" class="nav-link">
+            <i class="nav-icon fas fa-barcode"></i>
+              <p>
+             Barcode Scanner
+              </p>
+            </a>
           </li>
         </ul>
       </nav>
