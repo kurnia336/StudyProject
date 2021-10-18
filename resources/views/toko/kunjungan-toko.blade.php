@@ -5,21 +5,11 @@
 @section('css')
 <!-- css internal place -->
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 @endsection
-@section('header','Barang')
+@section('header','Kunjungan Toko')
 @section('konten')
-    <!-- Main content -->
-    <section class="content">
+<!-- Main content -->
+<section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -38,36 +28,37 @@
             </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <button data-toggle="modal" data-target="#pdf" class="btn btn-success">Cetak PDF</button>
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Barcode Barang</th>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>TIMESTAMP</th>
+                    <th>BARCODE TOKO</th>
+                    <th>NAMA TOKO</th>
+                    <th>LATITUDE</th>
+                    <th>LONGITUDE</th>
+                    <th>ACCURACY</th>
+                    <th>EXPORT</th>
                   </tr>
                   </thead>
                   <tbody>
-                        @forelse($barang as $barangs)
+                        @forelse($lokasi_toko as $lokasi)
                             <tr>
-                                <td style="text-align:center">
-                                    <?php
+                              <td class="text-center">
+                              <?php
                                     $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-                                    echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($barangs->id_barang, $generator::TYPE_CODE_128)) . '">';                                    
+                                    echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($lokasi->barcode, $generator::TYPE_CODE_128)) . '">';                                    
                                     /*
                                     $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
                                     echo $generator->getBarcode($barangs->id_barang, $generator::TYPE_CODE_128);
                                     */
                                     ?>
                                     <br>
-                                    <?= $barangs->id_barang?>
-                                    <br>
-                                    <?= $barangs->nama_barang?>
+                                    <?= $lokasi->barcode?>
                                 </td>
-                                <td>{{$barangs->id_barang}}</td>
-                                <td>{{$barangs->nama_barang}}</td>
-                                <td>{{$barangs->timestamp}}</td>
+                              <td>{{$lokasi->nama_toko}}</td>
+                              <td>{{$lokasi->latitude}}</td>
+                              <td>{{$lokasi->longitude}}</td>
+                              <td>{{$lokasi->accuracy}}</td>
+                              <td><a class="btn btn-outline-success" href="{{url('kunjungan-toko/export/'. $lokasi->barcode)}}">EXPORT PDF</a></td>
                             </tr>
                         @empty
                         <div class="alert alert-danger">
@@ -77,10 +68,12 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Barcode Barang</th>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>TIMESTAMP</th>
+                    <th>BARCODE TOKO</th>
+                    <th>NAMA TOKO</th>
+                    <th>LATITUDE</th>
+                    <th>LONGITUDE</th>
+                    <th>ACCURACY</th>
+                    <th>EXPORT</th>
                   </tr>
                   </tfoot>
                 </table>
@@ -103,17 +96,33 @@
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Barang</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Tambah Data Toko</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/barang/create') }}" method="post">
+                <form action="{{ url('/kunjungan-toko/create') }}" method="post">
                 @csrf
                     <div class="form-group">
-                        <label for="nama_barang">Nama Barang</label>
-                        <input type="text" class="form-control" id="nama_barang" placeholder="Nama Barang" name="nama_barang" required>
+                        <label for="barcode">Baroce Number</label>
+                        <input type="text" class="form-control" id="barcode" placeholder="Barcode Number" name="barcode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_toko">Nama Toko</label>
+                        <input type="text" class="form-control" id="nama_toko" placeholder="Nama Toko" name="nama_toko" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">latitude</label>
+                        <input type="text" class="form-control" id="latitude" placeholder="Latitude" name="latitude" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="text" class="form-control" id="longitude" placeholder="Longitude" name="longitude" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accuracy">Accuracy</label>
+                        <input type="number" class="form-control" id="accuracy" placeholder="Accuracy" name="accuracy" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -157,39 +166,9 @@
     </div>
   </div>
 </div>
-<!-- End modal Export PDF -->
 @endsection
 
 @section('script')
 <!-- script internal place -->
 
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../../plugins/jszip/jszip.min.js"></script>
-<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });
-</script>
 @endsection

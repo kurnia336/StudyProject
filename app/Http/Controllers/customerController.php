@@ -21,8 +21,10 @@ class customerController extends Controller
      */
     public function index()
     {
+        $data = "customer";
+        $cus = "customers";
         $customer = Customer::select(DB::raw('id_customer,nama_customer,alamat_customer,foto_customer,file_path_customer,ec_subdistricts.subdis_name'))->join('ec_subdistricts','ec_subdistricts.subdis_id','=','customer.subdis_id')->get();
-        return view('customer.customer_index',compact('customer'));
+        return view('customer.customer_index',compact('customer','data','cus'));
     }
 
     /**
@@ -35,12 +37,18 @@ class customerController extends Controller
         $prov = ec_provinces::all();
         //$prov = 0;
         //dd($prov);
-        return view('customer.customer_create_1',compact('prov'));
+        $cus = "customer1";
+        $data = "customer";
+
+        return view('customer.customer_create_1',compact('prov','cus','data'));
     }
     public function create2()
     {
+        $cus="customer2";
+        $data = "customer";
+
         $prov = ec_provinces::all();
-        return view('customer.customer_create_2',compact('prov'));
+        return view('customer.customer_create_2',compact('prov','cus','data'));
     }
 
     public function fetchCity(Request $request)

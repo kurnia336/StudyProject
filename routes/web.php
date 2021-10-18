@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\customerController;
 use App\Http\Controllers\barangController;
 use App\Http\Controllers\scanBarcodeController;
+use App\Http\Controllers\tokoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +17,8 @@ use App\Http\Controllers\scanBarcodeController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $data = "";
+    return view('home',compact('data'));
 });
 //customer
 Route::get('/customer', [customerController::class, 'index'] );
@@ -31,8 +33,15 @@ Route::post('/customer-tambah2/store', [customerController::class, 'store2'] );
 //barang
 Route::get('/barang', [barangController::class, 'index'] );
 Route::post('/barang/create', [barangController::class, 'store'] );
-Route::get('/barang/cetakpdf/', [barangController::class, 'cetakPdf'] );
+Route::post('/barang/cetakpdf/', [barangController::class, 'cetakPdf'] );
 
 //scan barcode
 Route::get('/barcode-scanner', [scanBarcodeController::class, 'index']);
+Route::get('/scan-kunjungan-toko',[scanBarcodeController::class,'scanKunjungan']);
+Route::post('/scan-kunjungan-toko/getLocationToko',[scanBarcodeController::class,'getLocationToko']);
+Route::post('/scan-kunjungan-toko/hasil',[scanBarcodeController::class,'getDistanceFromLatLonInKm']);
 
+//kujungan toko
+Route::get('/kunjungan-toko',[tokoController::class,'index']);
+Route::post('/kunjungan-toko/create', [tokoController::class, 'store'] );
+Route::get('/kunjungan-toko/export/{id}', [tokoController::class, 'export'] );

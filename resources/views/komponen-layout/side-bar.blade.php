@@ -35,6 +35,81 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          @if($data == "customer")
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Customer
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @if($cus == "customers")
+              <li class="nav-item ">
+                <a href="{{ url('/customer') }}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Customer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/customer-tambah1') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Customer 1</p>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/customer-tambah2') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tambah Customer 2</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+              @elseif($cus == "customer1")
+              <li class="nav-item ">
+                <a href="{{ url('/customer') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Customer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/customer-tambah1') }}" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Customer 1</p>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/customer-tambah2') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tambah Customer 2</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+            @else
+            <li class="nav-item ">
+                <a href="{{ url('/customer') }}" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Customer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/customer-tambah1') }}" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Customer 1</p>
+              </a>
+            </li>
+              <li class="nav-item">
+                <a href="{{ url('/customer-tambah2') }}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tambah Customer 2</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          @endif
+          @else
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -64,8 +139,13 @@
               </li>
             </ul>
           </li>
+          @endif
           <li class="nav-item">
+            @if($data == "barang")
+            <a href="{{ url('/barang') }}" class="nav-link active">
+            @else
             <a href="{{ url('/barang') }}" class="nav-link">
+            @endif
             <i class="nav-icon fas fa-table"></i>
               <p>
               Cetak label TnJ 108
@@ -73,10 +153,38 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('/barcode-scanner') }}" class="nav-link">
+            @if($data == "barcodeScanner")
+            <a href="{{ url('/barcode-scanner') }}" class="nav-link active">
+            @else
+            <a href="{{ url('/barcode-scanner') }}" class="nav-link ">
+            @endif
             <i class="nav-icon fas fa-barcode"></i>
               <p>
              Barcode Scanner
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            @if($data == "toko")
+            <a href="{{ url('/kunjungan-toko') }}" class="nav-link active">
+            @else
+            <a href="{{ url('/kunjungan-toko') }}" class="nav-link">
+            @endif
+            <i class="nav-icon fas fa-barcode"></i>
+              <p>
+                Kunjungan Toko
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            @if($data == "tokoScan")
+            <a href="{{ url('/scan-kunjungan-toko') }}" class="nav-link active">
+            @else
+            <a href="{{ url('/scan-kunjungan-toko') }}" class="nav-link">
+            @endif
+            <i class="nav-icon fas fa-barcode"></i>
+              <p>
+                Scan Kunjungan Toko
               </p>
             </a>
           </li>

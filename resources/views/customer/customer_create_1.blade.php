@@ -170,8 +170,6 @@ function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
 if (hasGetUserMedia()) {
-    
-
     Webcam.set({
             width: 350,
             height: 250,

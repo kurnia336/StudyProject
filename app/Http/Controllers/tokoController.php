@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Barang;
+
 use Illuminate\Http\Request;
+use App\Models\lokasi_toko;
 use PDF;
-class barangController extends Controller
+class tokoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,9 +14,9 @@ class barangController extends Controller
      */
     public function index()
     {
-        $barang = Barang::all();
-        $data = "barang";
-        return view('barang.barang_index',compact('barang','data'));
+        $data = "toko";
+        $lokasi_toko = lokasi_toko::all();
+        return view('toko.kunjungan-toko',compact('lokasi_toko','data'));
     }
 
     /**
@@ -38,13 +39,16 @@ class barangController extends Controller
     {
         $request->validate([
            
-            'nama_barang' => 'max:50',
+            'nama_toko' => 'max:50',
         ]);
-        Barang::create([
-            'nama_barang' => $request->nama_barang
+        lokasi_toko::create([
+            'barcode' => $request->barcode,
+            'nama_toko' => $request->nama_toko,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'accuracy' => $request->accuracy,
         ]);
-        return redirect('/barang')->with('status','Data Berhasil Ditambahkan!!!'); 
-        
+        return redirect('/kujungan-toko')->with('status','Data Berhasil Ditambahkan!!!'); 
     }
 
     /**
@@ -53,9 +57,11 @@ class barangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function export($id)
     {
-        //
+        $pdf = PDF::loadView('toko/cetak-toko', compact('id'));
+    
+       return $pdf->download('barcode-Toko-'.$id.'.pdf');
     }
 
     /**
@@ -90,20 +96,5 @@ class barangController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function cetakPdf(Request $request){
-        //dd($barang);
-        $data = Barang::all();
-        $baris = $request->baris_barang;
-        $kolom = $request->kolom_barang;
-        $long = count($data);
-        $long =intval($long/5);
-        $long++;
-        //dd($baris,$kolom);
-        $pdf = PDF::loadView('barang/barcodePDF', compact('data','long','baris','kolom'));
-    
-       return $pdf->download('barangBarcode.pdf');
-        
-        //return view('barang.barcodePDF',compact('data','long','baris','kolom'));
     }
 }

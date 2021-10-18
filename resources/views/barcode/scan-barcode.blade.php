@@ -3,7 +3,6 @@
 @section('title','Dashboard')
 @section('css')
    
-    <link rel="stylesheet" rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null" href="https://unpkg.com/milligram@1.3.0/dist/milligram.min.css">
 @endsection
 
 @section('header','Scanner Barcode')
@@ -49,12 +48,12 @@
         window.addEventListener('load', function () {
             let selectedDeviceId;
             const codeReader = new ZXing.BrowserBarcodeReader()
-            console.log('ZXing code reader initialized')
+            //console.log('ZXing code reader initialized')
             codeReader.getVideoInputDevices()
                 .then((videoInputDevices) => {
                     const sourceSelect = document.getElementById('sourceSelect')
                     selectedDeviceId = videoInputDevices[0].deviceId
-                    if (videoInputDevices.length > 1) {
+                    if (videoInputDevices.length >= 1) {
                         videoInputDevices.forEach((element) => {
                             const sourceOption = document.createElement('option')
                             sourceOption.text = element.label
