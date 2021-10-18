@@ -101,7 +101,7 @@ var hasilBarcode;
                         codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'video').then((result) => {
                             console.log(result)
                             document.getElementById('barcode').value = result.text;
-                            //hasilBarcode = result.text;
+                            //function menampilkan data dari database toko
                             getDataLocation(result.text);
                             //console.log(hasilBarcode);
                         }).catch((err) => {
@@ -174,12 +174,15 @@ function showPosition(position) {
   latitude_user = position.coords.latitude;
   longitude_user = position.coords.longitude;
 }
-
+//menghitung Jarak 2 lokasi
 function hasilJarak(){
 console.log(latitude_toko,longitude_toko,latitude_user,longitude_user);
+//function perhitungan 2 jarak
 jarak = getDistanceFromLatLonInKm(latitude_toko,longitude_toko,latitude_user,longitude_user);
 console.log(jarak);
+//menghitung accuracy
 rata_accuracy();
+//hasil output akhir
 kesimpulan();
 }
 
@@ -201,6 +204,7 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     return deg * (Math.PI/180)
     }
     function rata_accuracy(){
+        //menambahkan accuracy toko dengan accuracy user
       var hassil = accuracy_toko+accuracy_user;
       result_acc = hassil/2;
        console.log("rata-rata akurasi : ");
